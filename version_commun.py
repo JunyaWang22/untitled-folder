@@ -194,10 +194,6 @@ def test_laby(x,y,dimension):
     ligne = export_screen().split('\n')
     entree = ligne[0].split('#')
     sortie = ligne[(y*dimension)-1].split('#')
-    #print(ligne[(y*dimension-1)].split('#'))
-    #print(sortie[(-dimension+1):-1])
-   # assert len(entree[2:dimension+1]) == dimension-1
-    #assert len(sortie[(-dimension):-2]) == dimension-1
 print(test_laby(16,9,20))
     
    #print(ligne[(9*20)-1])
