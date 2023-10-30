@@ -78,7 +78,7 @@ def voisins(x,y,nx,ny):
     return no_case
 
 def test_voisins():
-    assert voisins(7,2,8,4) == [22,15,31]
+    assert voisins(7,2,8,4) == [15,22,31]
     assert voisins(0,0,8,4) == [1,8]
     assert voisins(0,0,1,1) == []
     assert voisins(4,1,8,4) == [4,11,13,20]
@@ -147,10 +147,14 @@ def randomiser_liste(liste):
 def laby(nx, ny, dimension):
     noire = "#000"
     blanc = "#fff"
+    largeur = nx*dimension
+    hauteur = ny*dimension
     #mise en place du fond blanc 
-    set_screen_mode(nx*dimension,ny*dimension)     
-    fill_rectangle(0,0,nx*dimension,ny*dimension, blanc)
+    set_screen_mode(largeur,hauteur)     
     taille_px = 1
+    for y in range(hauteur):
+        for x in range(largeur):
+            set_pixel(x, y, blanc)
     
     cave = []
     front = []
@@ -187,23 +191,10 @@ def laby(nx, ny, dimension):
     # x,y,width, height
     largeur = dimension*(nx-1)
     hauteur = dimension*ny
-    
+                                                                # contour laby:
     fill_rectangle(dimension, 0, largeur, taille_px, noire)     # en haut
     fill_rectangle(0,dimension*ny-1, largeur, taille_px, noire) # en bas 
     fill_rectangle(0,0, taille_px, hauteur, noire)              # gauche
     fill_rectangle(dimension*nx-1,0, taille_px, hauteur, noire) # droite 
 
 print(laby(16, 9, 20))  
-
-def test_laby(x,y,dimension):
-    ligne = export_screen().split('\n')
-    entree = ligne[0].split('#')
-    sortie = ligne[(y*dimension)-1].split('#')
-print(test_laby(16,9,20))
-    assert test_laby(1,1,20) == 
-    
-   #print(ligne[(9*20)-1])
-
-#def test_laby(laby):
-   # export_screen(laby(35,18,10)) 
-#print(test_laby(laby))
