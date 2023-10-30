@@ -1,8 +1,6 @@
 ## Conceptrices : Junya Wang et Dipika Patel 
 ## Date : 31 octobre 2023
 
-import time
-
 def random_int(max):
     return math.floor(random()*max)
 
@@ -27,6 +25,7 @@ def contient(tab,x):
 def test_contient ():
     assert contient([9,2,5], 2) == True
     assert contient([9,2,5], 4) == False
+    assert contient([],2) == False
 test_contient()
 
 # Fonction qui prend deux paramètres qui va ajouter une valeur au tableau si 
@@ -38,6 +37,7 @@ def ajouter(tab,x):
 def test_ajouter ():
     assert ajouter([9,2,5], 2) == [9,2,5]
     assert ajouter([9,2,5], 4) == [9,2,5,4]
+    assert ajouter([],2) == [2]
 test_ajouter()
 #print(ajouter([9,2,5], 3))
 
@@ -50,6 +50,7 @@ def retirer(tab,x):
 def test_retirer():
     assert retirer([9,2,5], 2) == [9,5]
     assert retirer([9,2,5], 4) == [9,2,5]
+    assert retirer([],2) == []
 test_retirer()
 #print(retirer([9,2,5], 2))
 
@@ -63,12 +64,12 @@ def coordonnee(case,valeur):
 def voisins(x,y,nx,ny):
     coord = []                   # coordonnées x et y des cases 
     no_case = []                 # numéro de case 
+    if y-1 >= 0 :                # case voisin d'en haut 
+        coord.append([x,y-1])   
     if x-1 >= 0 :                # case voisin de gauche
         coord.append([x-1,y])   
     if x+1 < nx:                 # case voisin de droite
-        coord.append([x+1,y])    
-    if y-1 >= 0 :                # case voisin d'en haut 
-        coord.append([x,y-1])    
+        coord.append([x+1,y])     
     if y+1 < ny:                 # case voisin d'en bas
         coord.append([x,y+1])  
         
@@ -79,6 +80,10 @@ def voisins(x,y,nx,ny):
 def test_voisins():
     assert voisins(7,2,8,4) == [22,15,31]
     assert voisins(0,0,8,4) == [1,8]
+    assert voisins(0,0,1,1) == []
+    assert voisins(4,1,8,4) == [4,11,13,20]
+    assert voisins(0,3,8,4) == [16,25]
+    assert voisins(0,0,2,1) == [1]
 test_voisins()
 
 # Fonction qui prend 4 paramètres pour enlever un mur en fonction de la 
@@ -195,6 +200,7 @@ def test_laby(x,y,dimension):
     entree = ligne[0].split('#')
     sortie = ligne[(y*dimension)-1].split('#')
 print(test_laby(16,9,20))
+    assert test_laby(1,1,20) == 
     
    #print(ligne[(9*20)-1])
 
