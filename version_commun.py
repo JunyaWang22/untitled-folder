@@ -158,10 +158,10 @@ def laby(nx, ny, dimension):
     set_screen_mode(largeur,hauteur)     
     fill_rectangle(0,0,largeur,ny*dimension, blanc)
     
-    cave = []                     # ensemble des cellules mises dans la cavité
-    front = []                    # ensemble des cellules voisines de cave
-    horiz = sequence(nx*(ny+1))   # ensemble de murs horizontaux
-    verti = sequence((nx+1)*ny)   # ensemble de murs verticaux
+    cave = []                     # cellules mises dans la cavité
+    front = []                    # cellules voisines de cave
+    horiz = sequence(nx*(ny+1))   # murs horizontaux
+    verti = sequence((nx+1)*ny)   # murs verticaux
     nb_cellules = nx*ny           # nombre de cellules 
     
     case_init = random_int(nb_cellules)  # cavité initiale choisi aléatoirement
