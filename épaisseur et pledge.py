@@ -71,9 +71,9 @@ def voisins(x,y,nx,ny):
         coord.append([x+1,y])     
     if y+1 < ny:                 # case voisin d'en bas
         coord.append([x,y+1])  
-        
-    for element in coord:                   # chaque coordonnée des voisins est 
-        no_case.append(element[0]+element[1]*nx) # assigné à son numero de case 
+    # chaque coordonnée des voisins est assigné à son numero de case
+    for element in coord:                   
+        no_case.append(element[0]+element[1]*nx) 
     return no_case
 
 def test_voisins():
@@ -97,7 +97,7 @@ def enlever_mur(case,nx,voisin,verti,horiz):
         retirer(verti,mur_ouest)
         
     elif valeur == -1 :                             # mur Est
-        mur_est = 1 + coord[0] + coord[1]* (nx+1)
+        mur_est = 1 + coord[0] + coord[1] * (nx+1)
         retirer(verti,mur_est)   
 
     elif valeur == nx :                             # mur Nord
@@ -107,7 +107,9 @@ def enlever_mur(case,nx,voisin,verti,horiz):
     elif valeur == -nx :                            # mur Sud
         mur_sud = coord[0] + (coord[1]+1) * nx
         retirer(horiz,mur_sud)
-        
+
+# épaisseur de mur en pixel
+taille_px = 1        
 # Fonction qui dessinera les murs à partir des ensembles de murs verticales et
 # et horizontales disponibles
 def dessiner_mur (ensemble,nx,ny,dimension,est_horiz):
@@ -116,25 +118,25 @@ def dessiner_mur (ensemble,nx,ny,dimension,est_horiz):
             coord = coordonnee(mur,nx)
             if mur >= nx and mur < nx*ny:
                 fillRectangle(
-                    coord[0]*dimension, 
-                    coord[1]*dimension, 
+                    coord[0] * dimension, 
+                    coord[1] * dimension, 
                     dimension, 
-                    1, 
+                    taille_px, 
                     "#000")
         else:
             coord = coordonnee(mur,nx+1)
             if mur % (nx+1) != 0 and mur % (nx+1) != nx:
                 fillRectangle(
-                    coord[0]*dimension, 
-                    coord[1]*dimension, 
-                    1, 
+                    coord[0] * dimension, 
+                    coord[1] * dimension, 
+                    taille_px, 
                     dimension, 
                     "#000")
             
 # Fonction qui va rendre une liste aléatoire peut importe le nombre d'éléments
 def randomiser_liste(liste):
-    for i in range(len(liste)-1, 0, -1):  #code inspiré du chapitre 8 p.104
-        j = random_int(i+1)              # index de 0 à i aléatoire 
+    for i in range(len(liste)-1, 0, -1):  # code inspiré du chapitre 8 p.104
+        j = random_int(i+1)               # index de 0 à i aléatoire 
         temp = liste[i]            
         liste[i] = liste[j]
         liste[j] = temp 
@@ -143,12 +145,11 @@ def randomiser_liste(liste):
 def laby(nx, ny, dimension):
     noire = "#000"
     blanc = "#fff"
-    largeur = nx*dimension
-    hauteur = ny*dimension
+    largeur = nx * dimension
+    hauteur = ny * dimension
     
-    #mise en place du fond blanc 
+    # mise en place du fond blanc 
     set_screen_mode(largeur,hauteur)     
-    taille_px = 1
     for y in range(hauteur):
         for x in range(largeur):
             set_pixel(x, y, blanc)
@@ -185,13 +186,12 @@ def laby(nx, ny, dimension):
     dessiner_mur(horiz,nx,ny,dimension,True)
     dessiner_mur(verti,nx,ny,dimension,False)
     
-    # x,y,width, height
-    largeur = dimension*(nx-1)
-    hauteur = dimension*ny
-                                                                # contour laby:
-    fill_rectangle(dimension, 0, largeur, taille_px, noire)     # en haut
-    fill_rectangle(0,dimension*ny-1, largeur, taille_px, noire) # en bas 
-    fill_rectangle(0,0, taille_px, hauteur, noire)              # gauche
-    fill_rectangle(dimension*nx-1,0, taille_px, hauteur, noire) # droite 
+    # nouvelle largeur pour le contour laby
+    largeur = dimension * (nx-1)
+    
+    # contour laby:
+    fill_rectangle(dimension, 0, largeur, taille_px, noire)         # en haut
+    fill_rectangle(0,dimension * (ny-1), largeur, taille_px, noire) # en bas 
+    fill_rectangle(0,0, taille_px, hauteur, noire)                  # gauche
+    fill_rectangle(dimension * (nx-1),0, taille_px, hauteur, noire) # droite 
 
-print(laby(16, 9, 20))  
