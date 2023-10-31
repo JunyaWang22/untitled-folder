@@ -40,19 +40,20 @@ def test_ajouter ():
     assert ajouter([],2) == [2]
 test_ajouter()
 
+
 # Fonction qui prend deux paramètres qui va retirer une valeur du tableau si 
 # et seulement si elle est déjà comprise dans celui-ci. 
 def retirer(tab,x):
     if contient(tab,x):
         tab.remove(x)
     return tab
+
 def test_retirer():
     assert retirer([9,2,5], 2) == [9,5]
     assert retirer([9,2,5], 4) == [9,2,5]
     assert retirer([],2) == []
 test_retirer()
 
-# Fonction qui prend 2 paramètres pour déterminer la coordonnée de chaque case
 def coordonnee(case,valeur):
       return [case % valeur, case // valeur]
     
@@ -113,85 +114,85 @@ def enlever_mur(case,nx,voisin,verti,horiz):
 def dessiner_mur (ensemble,nx,ny,dimension,est_horiz):
     for mur in ensemble :
         if est_horiz:
-            coord = coordonnee(mur,nx)
+            coord = coordonnee(mur,nx)      # coordonnées des murs horizontaux
             if mur >= nx and mur < nx*ny:
-                fillRectangle(
-                    coord[0]*dimension, 
-                    coord[1]*dimension, 
-                    dimension, 
-                    1, 
-                    "#000")
+                for i in range(coord[0]*dimension, (coord[0]+1)*dimension):
+                    set_pixel(i, coord[1]*dimension, "#000")
         else:
-            coord = coordonnee(mur,nx+1)
+            coord = coordonnee(mur,nx+1)      # coordonnées des murs verticaux
             if mur % (nx+1) != 0 and mur % (nx+1) != nx:
-                fillRectangle(
-                    coord[0]*dimension, 
-                    coord[1]*dimension, 
-                    1, 
-                    dimension, 
-                    "#000")
-            
-# Fonction qui va rendre une liste aléatoire peut importe le nombre d'éléments
+                for i in range(coord[1]*dimension, (coord[1]+1)*dimension):
+                    set_pixel(coord[0]*dimension, i, "#000")
+                    
+# Fonction qui prend une liste en paramètres pour la rendre aléatoire peut
+# importe le nombre d'éléments dans celle-ci. 
 def randomiser_liste(liste):
-    for i in range(len(liste)-1, 0, -1):  #code inspiré du chapitre 8 p.104
-        j = random_int(i+1)              # index de 0 à i aléatoire 
+    for i in range(len(liste)-1, 0, -1):  # code repris du chapitre 8 p.104
+        j = random_int(i)               # index de 0 à i aléatoire 
         temp = liste[i]            
         liste[i] = liste[j]
         liste[j] = temp 
     return liste
 
+# Fonction qui prend 3 paramètres pour créer le labyrinthe aléatoire à partir 
+# de la largeur et la hateur et les dimensions pixels en éliminant un mur à la 
+# fois pour obtenir un arbre sous-tendant. 
+
 def laby(nx, ny, dimension):
-    noire = "#000"
+    noir = "#000"
     blanc = "#fff"
     largeur = nx*dimension
     hauteur = ny*dimension
-    
-    #mise en place du fond blanc 
-    set_screen_mode(largeur,hauteur)     
     taille_px = 1
-    for y in range(hauteur):
-        for x in range(largeur):
-            set_pixel(x, y, blanc)
+    
+    # initialisation du fond blanc
+    set_screen_mode(largeur,hauteur)     
+    fill_rectangle(0,0,largeur,ny*dimension, blanc)
     
     cave = []
     front = []
-    horiz = sequence(nx*(ny+1))
+    horiz = sequence(nx*(ny+1))  
     verti = sequence((nx+1)*ny)
-    NB_CELLULES = nx*ny                    
-    case_init = random_int(NB_CELLULES-1)  # case initiale
-
-    cave.append(case_init)  
+    nb_cellules = nx*ny
+    
+    case_init = random_int(nb_cellules)   # case initiale choisi aléatoirement
+    cave.append(case_init) 
     coord = coordonnee(case_init,nx)
-    front = voisins(coord[0], coord[1], nx, ny) 
+    
+    front = voisins(coord[0], coord[1], nx, ny)  
 
-    while(len(cave) < NB_CELLULES):
+    while(len(cave) < nb_cellules):                         
         a_retirer = True
-        random_nb = random_int(len(front)-1)
-        random_case = front[random_nb]
-        coord = coordonnee(random_case,nx)
-        random_voisins = voisins(coord[0], coord[1], nx, ny)
-        random_voisins = randomiser_liste(random_voisins)
-
-        for i in random_voisins:
-            if not contient(cave, i):
-                ajouter(front, i)
+        random_index = random_int(len(front))  # index de front choisi 
+        random_case = front[random_index]      # aléatoirement 
+        
+      # Trouver les cases voisins à random_case et les réassigner à la liste
+      # aléatoirement 
+        coord = coordonnee(random_case,nx)                   
+        random_voisins = voisins(coord[0],coord[1], nx, ny) 
+        random_voisins = randomiser_liste(random_voisins)    
+                                                            
+       # déterminer les voisins existants dans le labyrinthe et déterminer 
+       # aléatoirement le mur à enlever des ensembles verti, horiz.
+        for _ in random_voisins:                    
+            if not contient(cave, _):
+                ajouter(front, _)
             elif a_retirer:
-                enlever_mur(random_case,nx,i,verti,horiz)
+                enlever_mur(random_case,nx,_,verti,horiz)
                 a_retirer = False
 
         retirer(front, random_case)
         ajouter(cave, random_case)
    
+    # dessine_mur avec les valeurs de murs restantes dans chaque ensemble selon
+    # leur orientation horizontale ou verticale
     dessiner_mur(horiz,nx,ny,dimension,True)
     dessiner_mur(verti,nx,ny,dimension,False)
-    
-    # x,y,width, height
-    largeur = dimension*(nx-1)
-    hauteur = dimension*ny
-                                                                # contour laby:
-    fill_rectangle(dimension, 0, largeur, taille_px, noire)     # en haut
-    fill_rectangle(0,dimension*ny-1, largeur, taille_px, noire) # en bas 
-    fill_rectangle(0,0, taille_px, hauteur, noire)              # gauche
-    fill_rectangle(dimension*nx-1,0, taille_px, hauteur, noire) # droite 
+ 
+    # contour laby
+    fill_rectangle(dimension, 0, dimension*(nx-1), taille_px, noir)   # en haut
+    fill_rectangle(0,dimension*ny-1, dimension*(nx-1),taille_px, noir) # en bas 
+    fill_rectangle(0,0, taille_px,dimension*ny,noir)                   # gauche
+    fill_rectangle(dimension*nx-1,0, taille_px, dimension*ny,noir)     # droite 
 
-print(laby(16, 9, 20))  
+print(laby(10, 9, 20))  
