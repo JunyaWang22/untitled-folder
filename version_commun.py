@@ -4,7 +4,7 @@
 def random_int(max):
     return math.floor(random()*max)
 
-# Fonction à un parametre qui retourne un tableau d'une séquence de longeur n
+# Fonction à un parametre qui retourne un tableau d'une séquence de longeur n.
 def sequence(n):
     tab = []
     for i in range(0,n):
@@ -16,8 +16,8 @@ def test_sequence():
     assert sequence(0) == []
 test_sequence()
 
-# Fonction qui prend deux paramètres qui vérifie si la valeur est contenu
-# dans le tableau
+# Fonction qui prend deux paramètres qui retourne un booléen indiquant si x 
+# est contenu dans le tableau.
 def contient(tab,x):
     if x in tab:
         return True
@@ -136,7 +136,7 @@ def randomiser_liste(liste):
 
 # Procédure qui prend 3 paramètres pour créer le labyrinthe aléatoire à partir 
 # de la largeur et la hauteur et les dimensions pixels en éliminant un mur à la 
-# fois pour obtenir un arbre sous-tendant. 
+# fois pour un arbre sous-tendant. 
 
 def laby(nx, ny, dimension):
     noir = "#000"
@@ -174,25 +174,25 @@ def laby(nx, ny, dimension):
                                                             
        # déterminer les voisins existants dans le labyrinthe et déterminer 
        # aléatoirement le mur à enlever des ensembles verti, horiz.
-        for _ in random_voisins:                    
-            if not contient(cave, _):
-                ajouter(front, _)
+        for voisin in random_voisins:                    
+            if not contient(cave, voisin):
+                ajouter(front, voisin)
             elif a_retirer:
-                enlever_mur(random_case,nx,_,verti,horiz)
+                enlever_mur(random_case,nx,voisin,verti,horiz)
                 a_retirer = False
 
         retirer(front, random_case)
         ajouter(cave, random_case)
    
-    # dessine_mur avec les valeurs de murs restantes dans chaque ensemble selon
-    # leur orientation horizontale ou verticale
+    # dessine_mur avec les murs restants dans chaque ensemble selon leur 
+    # orientation horizontale ou verticale
     dessiner_mur(horiz,nx,ny,dimension,True)
     dessiner_mur(verti,nx,ny,dimension,False)
  
     # contour laby
     fill_rectangle(dimension, 0, dimension*(nx-1), taille_px, noir)   # en haut
-    fill_rectangle(0,dimension*ny-1, dimension*(nx-1),taille_px, noir) # en bas 
-    fill_rectangle(0,0, taille_px,dimension*ny,noir)                   # gauche
-    fill_rectangle(dimension*nx-1,0, taille_px, dimension*ny,noir)     # droite 
+    fill_rectangle(0,dimension*ny-1, dimension*(nx-1),taille_px, noir)# en bas 
+    fill_rectangle(0,0, taille_px,dimension*ny,noir)                  # gauche
+    fill_rectangle(dimension*nx-1,0, taille_px, dimension*ny,noir)    # droite 
 
-print(laby(10, 9, 20))  
+print(laby(34, 18, 10))
