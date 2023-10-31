@@ -136,7 +136,7 @@ def dessiner_mur (ensemble,nx,ny,dimension,est_horiz):
 # Fonction qui va rendre une liste aléatoire peut importe le nombre d'éléments
 def randomiser_liste(liste):
     for i in range(len(liste)-1, 0, -1):  # code inspiré du chapitre 8 p.104
-        j = random_int(i+1)               # index de 0 à i aléatoire 
+        j = math.floor(random() * (i+1))  # index de 0 à i aléatoire 
         temp = liste[i]            
         liste[i] = liste[j]
         liste[j] = temp 
@@ -154,13 +154,12 @@ def laby(nx, ny, dimension):
         for x in range(largeur):
             set_pixel(x, y, blanc)
     
-    cave = []
-    front = []
-    horiz = sequence(nx*(ny+1))
-    verti = sequence((nx+1)*ny)
-    NB_CELLULES = nx*ny                    
-    case_init = random_int(NB_CELLULES-1)  # case initiale
-
+    cave = []                      # ensemble des cellules mises dans la cavité
+    front = []                     # ensemble des cellules
+    horiz = sequence(nx * (ny+1))  # ensemble de murs horizontaux
+    verti = sequence((nx+1) * ny)  # ensemble de murs verticaux
+    NB_CELLULES = nx * ny          # nombre de cellules        
+    case_init = random_int(NB_CELLULES-1)    # case initiale
     cave.append(case_init)  
     coord = coordonnee(case_init,nx)
     front = voisins(coord[0], coord[1], nx, ny) 
