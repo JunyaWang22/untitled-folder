@@ -169,9 +169,8 @@ def laby(nx, ny, dimension):
         random_nb = random_int(len(front)-1)
         random_case = front[random_nb]
         coord = coordonnee(random_case,nx)
-        random_voisins = voisins(coord[0], coord[1], nx, ny)
-        random_voisins = randomiser_liste(random_voisins)
-
+        random_voisins = randomiser_liste(voisins(coord[0], coord[1], nx, ny))
+        
         for i in random_voisins:
             if not contient(cave, i):
                 ajouter(front, i)
