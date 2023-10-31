@@ -1,6 +1,7 @@
 ## Conceptrices : Junya Wang et Dipika Patel 
 ## Date : 31 octobre 2023
 
+# Fonction qui prend un paramètre et retourne une valeur aléatoire.
 def random_int(max):
     return math.floor(random()*max)
 
