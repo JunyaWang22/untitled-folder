@@ -71,9 +71,10 @@ def voisins(x,y,nx,ny):
         coord.append([x+1,y])     
     if y+1 < ny:                 # case voisin d'en bas
         coord.append([x,y+1])  
-        
-    for element in coord:                   # chaque coordonnée des voisins est 
-        no_case.append(element[0]+element[1]*nx) # assigné à son numero de case 
+
+# chaque coordonnée des voisins est assigné à son numero de case
+    for element in coord:                  
+        no_case.append(element[0]+element[1]*nx)  
     return no_case
 
 def test_voisins():
@@ -133,8 +134,8 @@ def dessiner_mur (ensemble,nx,ny,dimension,est_horiz):
             
 # Fonction qui va rendre une liste aléatoire peut importe le nombre d'éléments
 def randomiser_liste(liste):
-    for i in range(len(liste)-1, 0, -1):  #code inspiré du chapitre 8 p.104
-        j = random_int(i+1)              # index de 0 à i aléatoire 
+    for i in range(len(liste)-1, 0, -1):  # code inspiré du chapitre 8 p.104
+        j = random_int(i+1)               # index de 0 à i aléatoire 
         temp = liste[i]            
         liste[i] = liste[j]
         liste[j] = temp 
@@ -146,16 +147,16 @@ def laby(nx, ny, dimension):
     largeur = nx*dimension
     hauteur = ny*dimension
     
-    #mise en place du fond blanc 
+    # mise en place du fond blanc 
     set_screen_mode(largeur,hauteur)     
-    taille_px = 1
+    taille_px = 1                          # épaisseur de mur en pixels
     for y in range(hauteur):
         for x in range(largeur):
             set_pixel(x, y, blanc)
     
     cave = []
     front = []
-    horiz = sequence(nx*(ny+1))
+    horiz = sequence(nx*(ny+1))            # ensemble de murs horizontaux
     verti = sequence((nx+1)*ny)
     NB_CELLULES = nx*ny                    
     case_init = random_int(NB_CELLULES-1)  # case initiale
