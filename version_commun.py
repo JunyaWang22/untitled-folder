@@ -5,6 +5,11 @@
 def random_int(max):
     return math.floor(random()*max)
 
+def test_random_int():
+    assert random_int(0) == 0 
+    assert random_int(4) == 0 or 1 or 2 or 3 or 4
+test_random_int() 
+
 # Fonction à un parametre qui retourne un tableau d'une séquence de longeur n.
 def sequence(n):
     tab = []
