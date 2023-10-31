@@ -39,7 +39,6 @@ def test_ajouter ():
     assert ajouter([9,2,5], 4) == [9,2,5,4]
     assert ajouter([],2) == [2]
 test_ajouter()
-#print(ajouter([9,2,5], 3))
 
 # Fonction qui prend deux paramètres qui va retirer une valeur du tableau si 
 # et seulement si elle est déjà comprise dans celui-ci. 
@@ -52,8 +51,8 @@ def test_retirer():
     assert retirer([9,2,5], 4) == [9,2,5]
     assert retirer([],2) == []
 test_retirer()
-#print(retirer([9,2,5], 2))
 
+# Fonction qui prend 2 paramètres pour déterminer la coordonnée de chaque case
 def coordonnee(case,valeur):
       return [case % valeur, case // valeur]
     
@@ -109,8 +108,6 @@ def enlever_mur(case,nx,voisin,verti,horiz):
         mur_sud = coord[0] + (coord[1]+1) * nx
         retirer(horiz,mur_sud)
         
-#def test_enlever_mur : 
-#    assert enlever_mur()
 # Fonction qui dessinera les murs à partir des ensembles de murs verticales et
 # et horizontales disponibles
 def dessiner_mur (ensemble,nx,ny,dimension,est_horiz):
@@ -133,7 +130,6 @@ def dessiner_mur (ensemble,nx,ny,dimension,est_horiz):
                     1, 
                     dimension, 
                     "#000")
-            #sleep(0.1)
             
 # Fonction qui va rendre une liste aléatoire peut importe le nombre d'éléments
 def randomiser_liste(liste):
@@ -149,6 +145,7 @@ def laby(nx, ny, dimension):
     blanc = "#fff"
     largeur = nx*dimension
     hauteur = ny*dimension
+    
     #mise en place du fond blanc 
     set_screen_mode(largeur,hauteur)     
     taille_px = 1
