@@ -61,10 +61,11 @@ def test_retirer():
 test_retirer()
 
 # Fonction qui prend 2 paramètres qui retourne les coordonnées de chaque case
-def coordonnee(case,valeur):
-      return [case % valeur, case // valeur]
+def coordonnee(case,nx):
+      return [case % nx, case // nx]
 def test_coordonnee():
     assert coordonnee(21,8) == [3,2]
+    assert coordonnee(16,8) == [0,2]
     
 # Fonction qui prend 4 paramètres pour identifier les cases voisines à partir
 # des cooordonnées de la case en question et les retourner sous forme tableau
@@ -178,8 +179,8 @@ def laby(nx, ny, dimension):
       # Trouver les cases voisins à random_case et les réassigner à la liste
       # aléatoirement 
         coord = coordonnee(random_case,nx)                   
-        random_voisins = voisins(coord[0],coord[1], nx, ny) 
-        random_voisins = randomiser_liste(random_voisins)    
+        voisins_alea = voisins(coord[0],coord[1], nx, ny) 
+        random_voisins = randomiser_liste(voisins_alea)    
                                                             
        # déterminer les voisins existants dans le labyrinthe et déterminer 
        # aléatoirement le mur à enlever des ensembles verti, horiz.
