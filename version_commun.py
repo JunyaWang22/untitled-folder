@@ -1,6 +1,10 @@
 ## Conceptrices : Junya Wang et Dipika Patel 
 ## Date : 31 octobre 2023
 
+NOIR = "#000"    # couleur de pixels du labyrinthe
+BLANC = "#fff"
+TAILLE_PX = 1    # épaisseur du mur en pixel 
+
 # Fonction qui prend un paramètre et retourne une valeur aléatoire.
 def random_int(max):
     return math.floor(random()*max)
@@ -28,6 +32,7 @@ def contient(tab,x):
     if x in tab:
         return True
     return False 
+    
 def test_contient ():
     assert contient([9,2,5], 2) == True
     assert contient([9,2,5], 4) == False
@@ -40,6 +45,7 @@ def ajouter(tab,x):
     if not contient(tab,x):
         tab.append(x)
     return tab
+    
 def test_ajouter ():
     assert ajouter([9,2,5], 2) == [9,2,5]
     assert ajouter([9,2,5], 4) == [9,2,5,4]
@@ -60,9 +66,10 @@ def test_retirer():
     assert retirer([],2) == []
 test_retirer()
 
-# Fonction qui prend 2 paramètres qui retourne les coordonnées de chaque case
+# Fonction qui prend 2 paramètres qui retourne les coordonnées de la case
 def coordonnee(case,nx):
       return [case % nx, case // nx]
+    
 def test_coordonnee():
     assert coordonnee(21,8) == [3,2]
     assert coordonnee(16,8) == [0,2]
@@ -84,7 +91,7 @@ def voisins(x,y,nx,ny):
         coord.append([x,y+1])  
         
     for element in coord:                   # chaque coordonnée des voisins est 
-        no_case.append(element[0]+element[1]*nx) # assigné à son numero de case 
+        no_case.append(element[0]+element[1]*nx) # assigné à son numéro de case 
     return no_case
 
 def test_voisins():
@@ -102,37 +109,41 @@ test_voisins()
 
 def enlever_mur(case,nx,voisin,verti,horiz):
     coord = coordonnee(case,nx)          # coordonnées x,y 
-    valeur = case-voisin                 # difference entre les cases voisins
-    if valeur == 1 :                                # mur Ouest 
+    valeur = case-voisin                 # relation entre les cases voisins
+    # mur Ouest 
+    if valeur == 1 :                                
         mur_ouest = coord[0] + coord[1] * (nx+1)
         retirer(verti,mur_ouest)
-        
-    elif valeur == -1 :                             # mur Est
+    # mur Est    
+    elif valeur == -1 :                             
         mur_est = 1 + coord[0] + coord[1]* (nx+1)
         retirer(verti,mur_est)   
-
-    elif valeur == nx :                             # mur Nord
+    # mur Nord
+    elif valeur == nx :                            
         mur_nord = coord[0] + coord[1] * nx
         retirer(horiz,mur_nord)
-
-    elif valeur == -nx :                            # mur Sud
+    # mur Sud
+    elif valeur == -nx :                            
         mur_sud = coord[0] + (coord[1]+1) * nx
         retirer(horiz,mur_sud)
         
 # Fonction qui dessinera les murs à partir des ensembles de murs verticales et
 # et horizontales disponibles
 def dessiner_mur (ensemble,nx,ny,dimension,est_horiz):
+    global NOIR 
     for mur in ensemble :
         if est_horiz:
-            coord = coordonnee(mur,nx)      # coordonnées des murs horizontaux
+            coord = coordonnee(mur,nx)      
+           # dessine seulement les murs internes horizontaux du labyrinthe
             if mur >= nx and mur < nx*ny:
                 for i in range(coord[0]*dimension, (coord[0]+1)*dimension):
-                    set_pixel(i, coord[1]*dimension, "#000")
+                    set_pixel(i, coord[1]*dimension, NOIR)
         else:
-            coord = coordonnee(mur,nx+1)    # coordonnées des murs verticaux
+            coord = coordonnee(mur,nx+1)    
+           # dessine seulement les murs internes verticaux du labyrinthe
             if mur % (nx+1) != 0 and mur % (nx+1) != nx:
                 for i in range(coord[1]*dimension, (coord[1]+1)*dimension):
-                    set_pixel(coord[0]*dimension, i, "#000")
+                    set_pixel(coord[0]*dimension, i, NOIR)
                     
 # Fonction qui prend une liste en paramètres pour la rendre aléatoire peut
 # importe le nombre d'éléments dans celle-ci. 
@@ -146,32 +157,33 @@ def randomiser_liste(liste):
 
 # Procédure qui prend 3 paramètres pour créer le labyrinthe aléatoire à partir 
 # de la largeur et la hauteur et les dimensions pixels en éliminant un mur à la 
-# fois pour un arbre sous-tendant. 
+# fois résultant à un arbre sous-tendant avec un point d'entrée et de sortie. 
 
 def laby(nx, ny, dimension):
-    noir = "#000"
-    blanc = "#fff"
+    global NOIR 
+    global BLANC
+    global TAILLE_PX
     largeur = nx*dimension
     hauteur = ny*dimension
-    taille_px = 1            # épaisseur du mur en pixel 
     
     # initialisation du fond blanc
     set_screen_mode(largeur,hauteur)     
-    fill_rectangle(0,0,largeur,ny*dimension, blanc)
+    fill_rectangle(0,0,largeur,ny*dimension, BLANC)
     
     cave = []                     # cellules mises dans la cavité
     front = []                    # cellules voisines de cave
-    horiz = sequence(nx*(ny+1))   # murs horizontaux
-    verti = sequence((nx+1)*ny)   # murs verticaux
-    nb_cellules = nx*ny           # nombre de cellules 
+    horiz = sequence(nx*(ny+1))   # ensemble de murs horizontaux
+    verti = sequence((nx+1)*ny)   # ensemble de murs verticaux
+    NB_CELLULES = nx*ny           # nombre de cellules 
     
-    case_init = random_int(nb_cellules)  # cavité initiale choisi aléatoirement
+    case_init = random_int(NB_CELLULES)  # cavité initiale choisi aléatoirement
     cave.append(case_init) 
     coord = coordonnee(case_init,nx)
     
+    # déterminer les voisins de de la case initiale
     front = voisins(coord[0], coord[1], nx, ny)  
 
-    while(len(cave) < nb_cellules):                         
+    while(len(cave) < NB_CELLULES):                         
         a_retirer = True
         random_index = random_int(len(front))  # index de front choisi 
         random_case = front[random_index]      # aléatoirement 
@@ -199,10 +211,10 @@ def laby(nx, ny, dimension):
     dessiner_mur(horiz,nx,ny,dimension,True)
     dessiner_mur(verti,nx,ny,dimension,False)
  
-    # contour laby
-    fill_rectangle(dimension, 0, dimension*(nx-1), taille_px, noir)   # en haut
-    fill_rectangle(0,dimension*ny-1, dimension*(nx-1),taille_px, noir)# en bas 
-    fill_rectangle(0,0, taille_px,dimension*ny,noir)                  # gauche
-    fill_rectangle(dimension*nx-1,0, taille_px, dimension*ny,noir)    # droite 
+    # contour laby (murs externes) 
+    fill_rectangle(dimension,0,dimension*(nx-1),TAILLE_PX, NOIR)     # en haut
+    fill_rectangle(0,dimension*ny-1,dimension*(nx-1),TAILLE_PX, NOIR)# en bas 
+    fill_rectangle(0,0,TAILLE_PX,dimension*ny,NOIR)                  # gauche
+    fill_rectangle(dimension*nx-1,0,TAILLE_PX, dimension*ny,NOIR)    # droite 
 
 print(laby(34, 18, 10))
