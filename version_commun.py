@@ -143,7 +143,7 @@ def laby(nx, ny, dimension):
     blanc = "#fff"
     largeur = nx*dimension
     hauteur = ny*dimension
-    taille_px = 1
+    taille_px = 1            # épaisseur du mur en pixel 
     
     # initialisation du fond blanc
     set_screen_mode(largeur,hauteur)     
@@ -155,7 +155,7 @@ def laby(nx, ny, dimension):
     verti = sequence((nx+1)*ny)
     nb_cellules = nx*ny
     
-    case_init = random_int(nb_cellules)   # cavité initiale choisi aléatoirement
+    case_init = random_int(nb_cellules)  # cavité initiale choisi aléatoirement
     cave.append(case_init) 
     coord = coordonnee(case_init,nx)
     
