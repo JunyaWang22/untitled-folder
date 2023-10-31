@@ -108,7 +108,7 @@ test_voisins()
 # type de mur à retirer entre Nord, Ouest, Sud et Est. 
 
 def enlever_mur(case,nx,voisin,verti,horiz):
-    coord = coordonnee(case,nx)          # coordonnées x,y 
+    coord = coordonnee(case,nx)          
     valeur = case-voisin                 # relation entre les cases voisins
     # mur Ouest 
     if valeur == 1 :                                
@@ -176,8 +176,8 @@ def laby(nx, ny, dimension):
     verti = sequence((nx+1)*ny)   # ensemble de murs verticaux
     NB_CELLULES = nx*ny           # nombre de cellules 
     
-    case_init = random_int(NB_CELLULES)  # cavité initiale choisi aléatoirement
-    cave.append(case_init) 
+    case_init = random_int(NB_CELLULES)  # cavité initiale choisie et
+    cave.append(case_init)               # déclenche la suite pour front
     coord = coordonnee(case_init,nx)
     
     # déterminer les voisins de de la case initiale
