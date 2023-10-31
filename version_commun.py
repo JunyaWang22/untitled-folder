@@ -63,6 +63,8 @@ test_retirer()
 # Fonction qui prend 2 paramètres qui retourne les coordonnées de chaque case
 def coordonnee(case,valeur):
       return [case % valeur, case // valeur]
+def test_coordonnee():
+    assert coordonnee(21,8) == [3,2]
     
 # Fonction qui prend 4 paramètres pour identifier les cases voisines à partir
 # des cooordonnées de la case en question et les retourner sous forme tableau
@@ -126,7 +128,7 @@ def dessiner_mur (ensemble,nx,ny,dimension,est_horiz):
                 for i in range(coord[0]*dimension, (coord[0]+1)*dimension):
                     set_pixel(i, coord[1]*dimension, "#000")
         else:
-            coord = coordonnee(mur,nx+1)      # coordonnées des murs verticaux
+            coord = coordonnee(mur,nx+1)    # coordonnées des murs verticaux
             if mur % (nx+1) != 0 and mur % (nx+1) != nx:
                 for i in range(coord[1]*dimension, (coord[1]+1)*dimension):
                     set_pixel(coord[0]*dimension, i, "#000")
@@ -134,8 +136,8 @@ def dessiner_mur (ensemble,nx,ny,dimension,est_horiz):
 # Fonction qui prend une liste en paramètres pour la rendre aléatoire peut
 # importe le nombre d'éléments dans celle-ci. 
 def randomiser_liste(liste):
-    for i in range(len(liste)-1, 0, -1):  # code repris du chapitre 8 p.104
-        j = random_int(i)               # index de 0 à i aléatoire 
+    for i in range(len(liste)-1, 0, -1):    # code repris du chapitre 8 p.104
+        j = random_int(i)                   # index de 0 à i aléatoire 
         temp = liste[i]            
         liste[i] = liste[j]
         liste[j] = temp 
@@ -156,11 +158,11 @@ def laby(nx, ny, dimension):
     set_screen_mode(largeur,hauteur)     
     fill_rectangle(0,0,largeur,ny*dimension, blanc)
     
-    cave = []                     
-    front = []                  
-    horiz = sequence(nx*(ny+1))  
-    verti = sequence((nx+1)*ny)
-    nb_cellules = nx*ny
+    cave = []                     # ensemble des cellules mises dans la cavité
+    front = []                    # ensemble des cellules voisines de cave
+    horiz = sequence(nx*(ny+1))   # ensemble de murs horizontaux
+    verti = sequence((nx+1)*ny)   # ensemble de murs verticaux
+    nb_cellules = nx*ny           # nombre de cellules 
     
     case_init = random_int(nb_cellules)  # cavité initiale choisi aléatoirement
     cave.append(case_init) 
