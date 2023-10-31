@@ -134,8 +134,8 @@ def randomiser_liste(liste):
         liste[j] = temp 
     return liste
 
-# Fonction qui prend 3 paramètres pour créer le labyrinthe aléatoire à partir 
-# de la largeur et la hateur et les dimensions pixels en éliminant un mur à la 
+# Procédure qui prend 3 paramètres pour créer le labyrinthe aléatoire à partir 
+# de la largeur et la hauteur et les dimensions pixels en éliminant un mur à la 
 # fois pour obtenir un arbre sous-tendant. 
 
 def laby(nx, ny, dimension):
