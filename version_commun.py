@@ -54,6 +54,7 @@ def test_retirer():
     assert retirer([],2) == []
 test_retirer()
 
+# Fonction qui prend 2 paramètres qui retourne les coordonnées de chaque case
 def coordonnee(case,valeur):
       return [case % valeur, case // valeur]
     
