@@ -89,7 +89,7 @@ test_voisins()
 # différence entre les coordonnées des murs voisins permettant d'dentifier le 
 # type de mur à retirer entre Nord, Ouest, Sud et Est. 
 
-def enlever_mur(case,nx,voisin,verti,horiz):
+def enlever_mur(case,nx,voisin):
     coord = coordonnee(case,nx)          # coordonnées x,y 
     valeur = case-voisin                 # difference entre les cases voisins
     if valeur == 1 :                                # mur Ouest 
@@ -175,7 +175,7 @@ def laby(nx, ny, dimension):
             if not contient(cave, i):
                 ajouter(front, i)
             elif a_retirer:
-                enlever_mur(random_case,nx,i,verti,horiz)
+                enlever_mur(random_case,nx,i)
                 a_retirer = False
 
         retirer(front, random_case)
