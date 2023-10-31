@@ -149,13 +149,13 @@ def laby(nx, ny, dimension):
     set_screen_mode(largeur,hauteur)     
     fill_rectangle(0,0,largeur,ny*dimension, blanc)
     
-    cave = []
-    front = []
+    cave = []                     
+    front = []                  
     horiz = sequence(nx*(ny+1))  
     verti = sequence((nx+1)*ny)
     nb_cellules = nx*ny
     
-    case_init = random_int(nb_cellules)   # case initiale choisi aléatoirement
+    case_init = random_int(nb_cellules)   # cavité initiale choisi aléatoirement
     cave.append(case_init) 
     coord = coordonnee(case_init,nx)
     
