@@ -71,8 +71,9 @@ def coordonnee(case,nx):
       return [case % nx, case // nx]
     
 def test_coordonnee():
-    assert coordonnee(21,8) == [3,2]
+    assert coordonnee(21,8) == [5,2]
     assert coordonnee(16,8) == [0,2]
+test_coordonnee()
     
 # Fonction qui prend 4 paramètres pour identifier les cases voisines à partir
 # des cooordonnées de la case en question et les retourner sous forme tableau
@@ -103,7 +104,7 @@ def test_voisins():
     assert voisins(0,0,2,1) == [1]
 test_voisins()
 
-# Fonction qui prend 4 paramètres pour enlever un mur en fonction de la 
+# Procédure qui prend 4 paramètres pour enlever un mur en fonction de la 
 # différence entre les coordonnées des murs voisins permettant d'dentifier le 
 # type de mur à retirer entre Nord, Ouest, Sud et Est. 
 
@@ -127,7 +128,7 @@ def enlever_mur(case,nx,voisin,verti,horiz):
         mur_sud = coord[0] + (coord[1]+1) * nx
         retirer(horiz,mur_sud)
         
-# Fonction qui dessinera les murs à partir des ensembles de murs verticales et
+# Procédure qui dessinera les murs à partir des ensembles de murs verticales et
 # et horizontales disponibles
 def dessiner_mur (ensemble,nx,ny,dimension,est_horiz):
     global NOIR 
@@ -137,18 +138,18 @@ def dessiner_mur (ensemble,nx,ny,dimension,est_horiz):
            # dessine seulement les murs internes horizontaux du labyrinthe
             if mur >= nx and mur < nx*ny:
                 for i in range(coord[0]*dimension, (coord[0]+1)*dimension):
-                    set_pixel(i, coord[1]*dimension, NOIR)
+                    set_pixel(i, coord[1]*dimension,NOIR)
         else:
             coord = coordonnee(mur,nx+1)    
            # dessine seulement les murs internes verticaux du labyrinthe
             if mur % (nx+1) != 0 and mur % (nx+1) != nx:
                 for i in range(coord[1]*dimension, (coord[1]+1)*dimension):
-                    set_pixel(coord[0]*dimension, i, NOIR)
+                    set_pixel(coord[0]*dimension,i,NOIR)
                     
 # Fonction qui prend une liste en paramètres pour la rendre aléatoire peut
 # importe le nombre d'éléments dans celle-ci. 
 def randomiser_liste(liste):
-    for i in range(len(liste)-1, 0, -1):    # code repris du chapitre 8 p.104
+    for i in range(len(liste)-1, 0,-1):    # code repris du chapitre 8 p.104
         j = random_int(i)                   # index de 0 à i aléatoire 
         temp = liste[i]            
         liste[i] = liste[j]
@@ -159,7 +160,7 @@ def randomiser_liste(liste):
 # de la largeur et la hauteur et les dimensions pixels en éliminant un mur à la 
 # fois résultant à un arbre sous-tendant avec un point d'entrée et de sortie. 
 
-def laby(nx, ny, dimension):
+def laby(nx,ny,dimension):
     global NOIR 
     global BLANC
     global TAILLE_PX
@@ -181,7 +182,7 @@ def laby(nx, ny, dimension):
     coord = coordonnee(case_init,nx)
     
     # déterminer les voisins de de la case initiale
-    front = voisins(coord[0], coord[1], nx, ny)  
+    front = voisins(coord[0],coord[1],nx,ny)  
 
     while(len(cave) < NB_CELLULES):                         
         a_retirer = True
@@ -191,20 +192,20 @@ def laby(nx, ny, dimension):
       # Trouver les cases voisins à random_case et les réassigner à la liste
       # aléatoirement 
         coord = coordonnee(random_case,nx)                   
-        voisins_alea = voisins(coord[0],coord[1], nx, ny) 
-        random_voisins = randomiser_liste(voisins_alea)    
+        random_voisins = voisins(coord[0],coord[1],nx,ny) 
+        random_voisins = randomiser_liste(random_voisins)    
                                                             
        # déterminer les voisins existants dans le labyrinthe et déterminer 
        # aléatoirement le mur à enlever des ensembles verti, horiz.
         for voisin in random_voisins:                    
-            if not contient(cave, voisin):
-                ajouter(front, voisin)
+            if not contient(cave,voisin):
+                ajouter(front,voisin)
             elif a_retirer:
                 enlever_mur(random_case,nx,voisin,verti,horiz)
                 a_retirer = False
 
-        retirer(front, random_case)
-        ajouter(cave, random_case)
+        retirer(front,random_case)
+        ajouter(cave,random_case)
    
     # dessine_mur avec les murs restants dans chaque ensemble selon leur 
     # orientation horizontale ou verticale
@@ -217,4 +218,4 @@ def laby(nx, ny, dimension):
     fill_rectangle(0,0,TAILLE_PX,dimension*ny,NOIR)                  # gauche
     fill_rectangle(dimension*nx-1,0,TAILLE_PX, dimension*ny,NOIR)    # droite 
 
-print(laby(34, 18, 10))
+print(laby(9,9,3))
