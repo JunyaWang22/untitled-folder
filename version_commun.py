@@ -220,6 +220,7 @@ def laby(nx,ny,dimension):
 
 print(laby(34, 18, 10))
 
+# BONUS  - Fonction pledge 
 # code pris de chapitre 8, p.49
 def trier(t):  
     echange = True
@@ -231,15 +232,14 @@ def trier(t):
                 t[i] = t[i+1]
                 t[i+1] = temp
                 echange = True
-             
-def pledge (nx, ny, dimension):
-    laby (nx, ny, dimension)
+def pledge(nx, ny, dimension):
+    laby(nx, ny, dimension)
     horizm = retirer(horiz, random_voisins)   
     colon_un_horiz=[]
     for mur in horizm:
         if mur % (nx+1)==0:
             ajouter(colon_un_horiz, mur)
-    trier (colon_un_horiz)
-    for i in range (colon_un_horiz[0]-2):
-        set_pixel (1,i,"#f00")
-print (pledge (34, 18, 10))
+    trier(colon_un_horiz)
+    for i in range(colon_un_horiz[0]-2):
+        set_pixel(1,i,"#f00")
+print (pledge(34, 18, 10))
