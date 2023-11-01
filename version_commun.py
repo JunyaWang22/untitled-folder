@@ -105,7 +105,7 @@ def test_voisins():
 test_voisins()
 
 # Procédure qui prend 4 paramètres pour enlever un mur en fonction de la 
-# différence entre les coordonnées des murs voisins permettant d'dentifier le 
+# différence entre les coordonnées des murs voisins permettant d'identifier le 
 # type de mur à retirer entre Nord, Ouest, Sud et Est. 
 
 def enlever_mur(case,nx,voisin,verti,horiz):
@@ -218,4 +218,4 @@ def laby(nx,ny,dimension):
     fill_rectangle(0,0,TAILLE_PX,dimension*ny,NOIR)                  # gauche
     fill_rectangle(dimension*nx-1,0,TAILLE_PX, dimension*ny,NOIR)    # droite 
 
-print(laby(9,9,3))
+print(laby(34, 18, 10))
