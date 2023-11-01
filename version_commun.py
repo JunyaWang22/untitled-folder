@@ -219,3 +219,27 @@ def laby(nx,ny,dimension):
     fill_rectangle(dimension*nx-1,0,TAILLE_PX, dimension*ny,NOIR)    # droite 
 
 print(laby(34, 18, 10))
+
+# code pris de chapitre 8, p.49
+def trier(t):  
+    echange = True
+    while echange:
+        echange = False
+        for i in range(len(t)-1):
+            if t[i] > t[i+1]:
+                temp = t[i]
+                t[i] = t[i+1]
+                t[i+1] = temp
+                echange = True
+             
+def pledge (nx, ny, dimension):
+    laby (nx, ny, dimension)
+    horizm = retirer(horiz, random_voisins)   
+    colon_un_horiz=[]
+    for mur in horizm:
+        if mur % (nx+1)==0:
+            ajouter(colon_un_horiz, mur)
+    trier (colon_un_horiz)
+    for i in range (colon_un_horiz[0]-2):
+        set_pixel (1,i,"#f00")
+print (pledge (34, 18, 10))
